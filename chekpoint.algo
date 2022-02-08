@@ -1,0 +1,280 @@
+/*  CHECKPOINT
+
+A  ce point de contrôle, on vous  demande  d'écrire un algorithme qui lit une phrase,
+qui se termine par un point, caractère par caractère, et de déterminer :
+
+-La longueur de la phrase (le nombre de caractères).
+-Le nombre de mots dans la phrase (en supposant que les mots sont séparés par un seul espace).
+-Le nombre de voyelles dans la phrase.
+Vous devez garder à l'esprit que : 
+
+Chaque personnage sera traité séparément.
+Le dernier caractère est le point.
+Utilisez trois variables comme compteurs.
+
+*/
+
+ALGORITHM compteur_de_lettre
+
+VAR
+
+phrase:=STRING;
+n,mots,voyelles,:=INTEGER;
+tab:tableau[a,e,i,o,u,y,A,E,I,O,U,Y] of STRING;
+
+
+
+BEGIN
+read (phrase);
+n:=0;
+mots:=0;
+
+FOR i FROM 1 TO len(phrase)  DO
+   IF (phrase[i]='.') THEN
+      n:=longueur(phrase);
+   ELSE
+      read('une phrase se termine par un point , ceci n est pas une phrase');
+   END_IF;
+END_FOR;
+
+FOR a FROM 1 TO len(phrase)  DO
+   IF (phrase[i]==" ") THEN
+      mots:=+1;
+   END_IF;
+END_FOR;
+
+FOR x FROM 1 TO len(tab)  DO
+   FOR a FROM 1 TO len(phrase)  DO
+      IF (phrase[i]==tab[x]) THEN
+            voyelles:= +1;
+      END_IF;
+   END_FOR;
+END_FOR;
+
+write('la longueur de la phrase est:' n);
+write('le nombre de mots dans la phrase est:' mots);
+write('le nombre de voyelle est:' voyelles);
+
+END
+
+
+
+
+
+/* exo1*/ 
+/* permutation  */  
+
+ALGORITHM permutation_circul
+VAR
+   x,y,z,n:integer;
+BEGIN
+   x:=7;
+   y:=8;
+   z:=3;
+   write( "les 3 valeurs  sont x: "x " y:" y " z:" z);
+
+   n:=x;
+   x:=y;
+   y:=z;
+   z:=n;
+
+   write("apres permutation les valeurs deviennent x:"x " y:"y " z:" z );
+END
+
+/*  exo 2   */ 
+/*   Un loueur de voitures propose deux formules de location :
+Location au kilomètre :
+-pour les 100 premiers kilomètres : tarif r1 par km,
+-pour les kilomètres de 101 à 1000 : tarif r2 par km,
+-au-delà de 1000 kilomètres : tarif r3 par km.
+
+Tarif journalier : Kilométrage illimité au prix de la journée p_j.
+
+Dans les deux cas, il faut ajouter une assurance (dont le coût par jour est ins) 
+et la taxe sur la valeur ajoutée (TVA).
+Les grandeurs r1, r2, r3, p_d, ins ainsi que le taux de TVA sont considérés comme des constantes.
+
+Prenons par exemple : r1 = 0,7 r2 = 0,4 r3 = 0,2 p_d = 100 ins= 0,3 (exprimé en dinars) et taux TVA = 0,18.
+
+Rédiger un algorithme qui, compte tenu du nombre total de kilomètres et du nombre de jours de location,
+calcule les coûts totaux des deux tarifs et indique par une étiquette la solution la plus adaptée avantageuse 
+ pour le client.   */   
+
+
+
+   /*  comment resoudre un algo
+
+   /definir le probleme: proposez le cout optimal de location de voiture pour le client
+
+
+   /les contraintes:
+
+    *location par kilometre:
+
+   -100 premier kilometre=r1*km
+   - de 101 a 1000 km =r2*km   
+   -plus de 1000=r3*km 
+   -assurance=ins*jour
+   -taux=(tarif journalier +assurance)*TVA
+
+    *location journaliere:
+
+   -tarif journalier= p_d*jour
+   -assurance= ins*jour
+   -taux=(tarif journalier +assurance)*TVA
+
+   /les entrees:
+
+   r1,r2,r3,TVA,ins,p_g: const
+   n,x,taxe,sum,jour:integer;
+
+   /les sorties:
+
+   cout_km :integer (cout location par kilometre)
+   cout_j : integer (cout location journaliere)
+
+
+*/  
+
+ALGORITHM  Car_location
+VAR
+n,x,cout_km,cout_j,taxe,sum,jour:INTEGER;
+CONST
+r1:= 0.7;
+r2:= 0.4;
+r3:= 0.2;
+p_d:= 100;
+ins:= 0,3;
+TVA:= 0,18;
+
+BEGIN
+
+write("combien de jour voulez louer la voiture?");
+read(n);
+write("combien de kilometre compter vous parcourir?");
+read(x);
+
+IF (x<=100) THEN
+
+   sum:=(r1*x)+(ins*n);
+   taxe:=sum*TVA;
+   cout_km:=sum+taxe;
+END_IF
+
+IF (x>=101)&(x<=1000) THEN
+
+   sum:=(r1*100)(r2*x-100)+(ins*n);
+   taxe:=sum*TVA;
+   cout_km:=sum+taxe;
+END_IF
+
+IF (x>1000) THEN
+   sum:=(r1*100)(r2*900)(r3*(x-1000))+(ins*n);
+   taxe:=sum*TVA;
+   cout_km:=sum+taxe;
+END_IF
+
+
+jour:=(p_d*n)+(ins*n);
+taxe=jour*TVA;
+cout_j=jour+taxe;
+
+
+write("le cout de la formule 1 est:" cout_km);
+write("le cout de la formule 2 est:" cout_j);
+
+IF (cout_km>cout_j) THEN
+   write("le cout optimal de location de voiture est:"cout_j "donc la meilleur formule est la location journaliere");
+ELSE
+   write("le cout optimal de location de voiture est:"cout_km "donc la meilleur formule est la location par kilometre");
+ELSE
+END_IF
+
+
+END
+
+/*  exo3  
+
+Une date est donnée sous la forme d'un nombre entier de 6 chiffres.
+
+Par exemple, le nombre 181019 représente le 18 octobre 2019.
+
+Développez un algorithme qui a un tel nombre en entrée,
+vérifie que ce nombre correspond à une date valide et affiche le résultat suivant :
+Jour : 18
+Mois : Octobre
+Année : 2019
+
+*/
+
+/* comment resoudre cet algo
+
+   /definir le probleme: transformer un nombre de 6 chiffre en date 
+
+
+   /les contraintes:
+
+   -le nombre a 6 chiffres
+   -2 premier chiffre  represente le jour 
+   -2 chiffre suivant  represente le mois 
+   -2 dernier chiffre  represente l année
+
+   /les entrees:
+   
+   date:integer(le nombre a 6 chiffre)
+   day:integer(le jour)
+   month:integer(indicatif du mois)
+   year:ineger(l année)
+   mois:string(le mois)
+   
+
+   /les sorties:
+   jour:day
+   mois:mois 
+   annee:year
+
+
+*/
+ALGORITHM date
+VAR
+   date,Q:INTEGER.
+   day,month,year:INTEGER;
+   mois:STRING;
+BEGIN
+
+   read(date);
+
+   year:=date %100;
+   Q:=date/100
+   month:=Q%100;
+   day:=date%10000;
+
+   SWITCH (month) DO
+   case 01 : mois:= Janvier; BREAK;
+   case 02 : mois:= fevrier; BREAK;
+   case 03 : mois:= mars; BREAK;
+   case 04 : mois:= avril; BREAK;
+   case 05 : mois:= mai; BREAK;
+   case 06 : mois:= Juin; BREAK;
+   case 07 : mois:= Juillet; BREAK;
+   case 08 : mois:= aout; BREAK;
+   case 09 : mois:= septembre; BREAK;
+   case 10 : mois:= octobre; BREAK;
+   case 11 : mois:= novembre; BREAK;
+   case 12 : mois:= decembre; BREAK;
+   default : write ("au niveau de l operation pour le mois y'a un probleme")
+   END_SWITCH
+
+   write(" le nombre correspond a la date suivante:" );
+   write("jour:"day);
+   write("mois:"mois);
+   write("year:20"month);
+
+
+END
+
+
+
+
+
+
